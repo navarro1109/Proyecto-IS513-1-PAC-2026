@@ -7,6 +7,10 @@ export const isAuth = (req, res, next) => {
 
     const { authorization } = req.headers // Bearer ey1243.3242341.12rfrd423
 
+    if (!authorization) {
+        return res.status(401).json({ status: 'error', message: 'acceso denegado' })
+    }
+
     const token = authorization.split(' ')[1]
 
     try {
