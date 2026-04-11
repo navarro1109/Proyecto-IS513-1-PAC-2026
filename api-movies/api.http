@@ -21,21 +21,23 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg2NjcyNCwiZXhwIjoxNzc1OTAyNzI0fQ.X_2w69yB5BVtg3DHQiEpLvIXJl7wdVx3rqcw8_fq0jY
 
 {
-    "title": "The Matrix Recargado",
-    "release_year": 2003,
-    "synopsis": "Neo continua su lucha contra las maquinas.",
-    "director": [3, 4],
-    "posterUrl": "https://m.media-amazon.com/images/I/51EG732BV3L.jpg",
-    "genre": [1, 2]
+    "title": "La Pasion de Cristo",
+    "release_year": 2008,
+    "synopsis": "Una adaptación de la obra de teatro de Shakespeare, centrada en la vida de su hijo Hamnet.",
+    "director": [5],
+    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvlqWh0gIbFARMk_WSiClp9gt6A_WPaavDnKniUzSHv7SvE7YLY1UhvoLXAYHRsIL8OuFNXXQ&s=10",
+    "genre": [3]
 }
 
 ### actualizar pelicula
-PUT http://localhost:3000/movies/1
+PUT http://localhost:3000/movies/7
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg2NjcyNCwiZXhwIjoxNzc1OTAyNzI0fQ.X_2w69yB5BVtg3DHQiEpLvIXJl7wdVx3rqcw8_fq0jY
 
 {
-    "title": "The Matrix Reloaded"
+    "title": "La Pasion de Cristo",
+    "release_year": 2008,
+    "synopsis": "Una pelicula desgarradora basaa en la vida de Jesus de Nazaret, desde su nacimiento hasta su crucifixión y resurrección."
 }
 
 ### obtener todos los directores
@@ -48,7 +50,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg2NjcyNCwiZXhwIjoxNzc1OTAyNzI0fQ.X_2w69yB5BVtg3DHQiEpLvIXJl7wdVx3rqcw8_fq0jY
 
 {
-    "full_name": "Mel Gibson"
+    "full_name": "Chloe Zhao"
 }
 
 ### eliminar pelicula
