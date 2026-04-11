@@ -1,0 +1,205 @@
+# ================================================
+# SEED - 2 mejores peliculas por director
+# Primero hacer login y reemplazar TOKEN_AQUI
+# ================================================
+
+### LOGIN - ejecutar primero
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "profesor",
+    "password": "hash_falso_123"
+}
+
+# ------------------------------------------------
+# Christopher Nolan (id: 1)
+# ------------------------------------------------
+
+### The Dark Knight - Nolan
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "The Dark Knight",
+    "release_year": 2008,
+    "synopsis": "Batman enfrenta al Joker, un criminal caótico que siembra el terror en Gotham City.",
+    "director": [1],
+    "posterUrl": "https://m.media-amazon.com/images/I/51v5ZpFyaFL.jpg",
+    "genre": [2, 3]
+}
+
+### Interstellar - Nolan
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Interstellar",
+    "release_year": 2014,
+    "synopsis": "Un grupo de exploradores viaja a través de un agujero de gusano en busca de un nuevo hogar para la humanidad.",
+    "director": [1],
+    "posterUrl": "https://m.media-amazon.com/images/I/91obuWzA3XL.jpg",
+    "genre": [1, 3]
+}
+
+# ------------------------------------------------
+# Quentin Tarantino (id: 2)
+# ------------------------------------------------
+
+### Django Unchained - Tarantino
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Django Unchained",
+    "release_year": 2012,
+    "synopsis": "Un esclavo liberado se embarca en un viaje para rescatar a su esposa de un brutal propietario de plantación.",
+    "director": [2],
+    "posterUrl": "https://m.media-amazon.com/images/I/71g4S2cJnlL.jpg",
+    "genre": [3, 4]
+}
+
+### Kill Bill Vol. 1 - Tarantino
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Kill Bill Vol. 1",
+    "release_year": 2003,
+    "synopsis": "Una asesina traicionada por su jefe busca venganza contra todos los que la dejaron por muerta.",
+    "director": [2],
+    "posterUrl": "https://m.media-amazon.com/images/I/61ZNRTCxKNL.jpg",
+    "genre": [2, 4]
+}
+
+# ------------------------------------------------
+# Lana y Lilly Wachowski (id: 3, 4)
+# ------------------------------------------------
+
+### The Matrix Reloaded - Wachowski
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "The Matrix Reloaded",
+    "release_year": 2003,
+    "synopsis": "Neo y sus aliados luchan para proteger Zion mientras descubren más secretos sobre la Matrix.",
+    "director": [3, 4],
+    "posterUrl": "https://m.media-amazon.com/images/I/51EG732BV3L.jpg",
+    "genre": [1, 2]
+}
+
+### The Matrix Revolutions - Wachowski
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "The Matrix Revolutions",
+    "release_year": 2003,
+    "synopsis": "La guerra entre humanos y máquinas llega a su clímax mientras Neo busca la paz definitiva.",
+    "director": [3, 4],
+    "posterUrl": "https://m.media-amazon.com/images/I/51T2A725TBL.jpg",
+    "genre": [1, 2]
+}
+
+# ------------------------------------------------
+# Mel Gibson (id: 5)
+# ------------------------------------------------
+
+### Braveheart - Mel Gibson
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Braveheart",
+    "release_year": 1995,
+    "synopsis": "William Wallace lidera a los escoceses en una rebelión contra el rey Eduardo I de Inglaterra.",
+    "director": [5],
+    "posterUrl": "https://m.media-amazon.com/images/I/71gKBMjpV7L.jpg",
+    "genre": [2, 3]
+}
+
+### Apocalypto - Mel Gibson
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Apocalypto",
+    "release_year": 2006,
+    "synopsis": "Un hombre de la selva es capturado y llevado para ser sacrificado, pero escapa para salvar a su familia.",
+    "director": [5],
+    "posterUrl": "https://m.media-amazon.com/images/I/71ZXm+oLERL.jpg",
+    "genre": [2, 3]
+}
+
+# ------------------------------------------------
+# Chloe Zhao (id: 6)
+# ------------------------------------------------
+
+### Nomadland - Chloe Zhao
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Nomadland",
+    "release_year": 2020,
+    "synopsis": "Una mujer en sus 60s que, tras perderlo todo, se embarca en un viaje por el oeste americano como nómada moderna.",
+    "director": [6],
+    "posterUrl": "https://m.media-amazon.com/images/I/71b+xpI6qoL.jpg",
+    "genre": [3]
+}
+
+### Eternals - Chloe Zhao
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Eternals",
+    "release_year": 2021,
+    "synopsis": "Un grupo de héroes inmortales emergen de las sombras para proteger la Tierra de sus enemigos más antiguos.",
+    "director": [6],
+    "posterUrl": "https://m.media-amazon.com/images/I/71Pd7rSUJRL.jpg",
+    "genre": [1, 2]
+}
+
+# ------------------------------------------------
+# Ryan Coogler (id: 7)
+# ------------------------------------------------
+
+### Black Panther - Ryan Coogler
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Black Panther",
+    "release_year": 2018,
+    "synopsis": "T'Challa regresa a Wakanda para reclamar el trono, pero se ve desafiado por un enemigo poderoso.",
+    "director": [7],
+    "posterUrl": "https://m.media-amazon.com/images/I/81PkPXKJ3mL.jpg",
+    "genre": [2, 1]
+}
+
+### Creed - Ryan Coogler
+POST http://localhost:3000/movies
+Content-Type: application/json
+Authorization: Bearer TOKEN_AQUI
+
+{
+    "title": "Creed",
+    "release_year": 2015,
+    "synopsis": "Adonis Creed, hijo del legendario Apollo Creed, entrena con Rocky Balboa para forjar su propio legado.",
+    "director": [7],
+    "posterUrl": "https://m.media-amazon.com/images/I/71uMYu2gWKL.jpg",
+    "genre": [3, 2]
+}

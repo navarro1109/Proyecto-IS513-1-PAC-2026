@@ -187,10 +187,7 @@ export default class Movie {
     }
 
     static delete = async (id) => {
-
-        const idx = MOVIES.findIndex((movie) => movie.id === id)
-        MOVIES.splice(idx, 1)
-
+        await pool.query('DELETE FROM movies WHERE id = :id', { id })
     }
 
 }
