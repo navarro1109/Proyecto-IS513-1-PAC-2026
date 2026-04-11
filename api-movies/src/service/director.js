@@ -7,6 +7,11 @@ export default class Director {
         return rows
     }
 
+    static findById = async (id) => {
+        const [rows] = await pool.query('SELECT * FROM directors WHERE id = :id', { id })
+        return rows[0]
+    }
+
     static create = async ({ full_name }) => {
         const [result] = await pool.query(
             'INSERT INTO directors (full_name) VALUES (:full_name)',

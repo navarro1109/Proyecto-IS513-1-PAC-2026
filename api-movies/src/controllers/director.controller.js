@@ -9,6 +9,19 @@ export const getAll = async (req, res) => {
     }
 }
 
+export const getById = async (req, res) => {
+    const { id } = req.params
+    try {
+        const director = await Director.findById(id)
+        if (!director) {
+            return res.status(404).json({ status: 'error', message: 'Director no encontrado' })
+        }
+        res.json({ status: 'success', data: director })
+    } catch (e) {
+        res.status(500).json({ status: 'error', message: e.message })
+    }
+}
+
 export const create = async (req, res) => {
     const { full_name } = req.body
 
