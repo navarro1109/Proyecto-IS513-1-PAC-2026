@@ -2,6 +2,7 @@
 import express from 'express'
 import moviesRouter from './src/routes/movies.routes.js'
 import directorRouter from './src/routes/director.routes.js'
+import genreRouter from './src/routes/genre.routes.js'
 import { isAuth } from './src/middlewares/isAuth.js'
 import dotenv from 'dotenv'
 import { loadEnvFile } from 'node:process'
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 //aqui, se define el punto de entrada (endpoint) "/movies"
 app.use('/movies', isAuth, moviesRouter)
 app.use('/directors', isAuth, directorRouter)
+app.use('/genres', isAuth, genreRouter)
 app.use('/auth', authsRoutes)
 
 app.listen(PORT, () => {
