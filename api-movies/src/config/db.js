@@ -1,11 +1,6 @@
 import mysql from 'mysql2/promise';
-// import dotenv from 'dotenv'
-import { loadEnvFile } from 'node:process'
-
-if (!process.env.DB_HOST) {
-    // dotenv.config()
-    loadEnvFile()
-}
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Create the connection pool. The pool-specific settings are the defaults
 export const pool = mysql.createPool({
@@ -22,6 +17,7 @@ export const pool = mysql.createPool({
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
-    namedPlaceholders: true
+    namedPlaceholders: true,
+    charset: 'utf8mb4'
 });
 
