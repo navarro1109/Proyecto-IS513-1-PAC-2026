@@ -25,12 +25,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
 
 {
-    "title": "La Pasion de Cristo",
-    "release_year": 2004,
-    "synopsis": "Las ultimas horas de Jesus de Nazaret desde su arresto hasta su crucifixion.",
-    "director": [5],
-    "posterUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvlqWh0gIbFARMk_WSiClp9gt6A_WPaavDnKniUzSHv7SvE7YLY1UhvoLXAYHRsIL8OuFNXXQ&s=10",
-    "genre": [3]
+    "title": "SEVEN",
+    "release_year": 1995,
+    "synopsis": "Las vidas de dos detectives se ven sacudidas por un caso que los enfrenta a un asesino en serie que utiliza los siete pecados capitales como motivo para sus crímenes.",
+    "director": [8],
+    "posterUrl": "https://m.media-amazon.com/images/I/51oX9n2aG8L._AC_.jpg",
+    "genre": [3, 4]
 }
 
 ### actualizar pelicula
@@ -41,7 +41,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvb
 {
     "title": "La Pasion de Cristo",
     "release_year": 2004,
-    "synopsis": "Una pelicula desgarradora basada en la vida de Jesus de Nazaret, desde su nacimiento hasta su crucifixion y resurreccion."
+    "synopsis": "Una pelicula desgarradora basada en la vida de Jesus de Nazaret, desde su arresto hasta su crucifixion y resurreccion."
 }
 
 ### eliminar pelicula
@@ -62,8 +62,30 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
 
 {
-    "full_name": "Nombre del Director"
+    "full_name": "James Cameron"
 }
+
+
+### obtener director por id
+GET http://localhost:3000/directors/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
+
+
+### actualizar director
+PUT http://localhost:3000/directors/9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
+
+
+{
+    "full_name": "Jim Cameron"
+}
+
+
+### eliminar director
+DELETE http://localhost:3000/directors/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
+
 
 # ================================================
 # GENRES
@@ -87,12 +109,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvb
 }
 
 ### actualizar genero
-PUT http://localhost:3000/genres/5
+PUT http://localhost:3000/genres/8
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJtaWRvbWluaW8uY29tIiwidXNlcm5hbWUiOiJwcm9mZXNvciIsImlhdCI6MTc3NTg3MjEzNywiZXhwIjoxNzc1OTA4MTM3fQ.EBpL5gPvkNBo25-KxIb7151p7iv4WGUtYqe9l2jW69c
 
 {
-    "name": "Terror Psicologico"
+    "name": "Animada"
 }
 
 ### eliminar genero

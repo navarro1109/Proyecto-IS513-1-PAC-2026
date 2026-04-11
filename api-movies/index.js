@@ -1,37 +1,29 @@
-// import { createserver } from 'node:http'
 import express from 'express'
+import dotenv from 'dotenv'
 import moviesRouter from './src/routes/movies.routes.js'
 import directorRouter from './src/routes/director.routes.js'
 import genreRouter from './src/routes/genre.routes.js'
-import { isAuth } from './src/middlewares/isAuth.js'
-import dotenv from 'dotenv'
-import { loadEnvFile } from 'node:process'
 import authsRoutes from './src/routes/auth.routes.js'
+import { isAuth } from './src/middlewares/isAuth.js'
 
 dotenv.config()
 
-// const server = createserver((req, res)=>{})
 const app = express()
-const PORT = process.env.PORT || 4321
+const PORT = process.env.PORT || 3000
 
-
-// middlewares
-
-//capturar los datos que vienen en la peticion y convertirlos a formato json
-// e inyectarlo en el objeto body de l a request
+// Middleware para parsear JSON
 app.use(express.json())
 
-
-//definir las rutas
+// Rutas publicas
 app.get('/', (req, res) => {
-    res.send('<h1>Hola mundo</h1>')
+    res.send('<h1>API Movies - IS513</h1>')
 })
+app.use('/auth', authsRoutes)
 
-//aqui, se define el punto de entrada (endpoint) "/movies"
+// Rutas protegidas
 app.use('/movies', isAuth, moviesRouter)
 app.use('/directors', isAuth, directorRouter)
 app.use('/genres', isAuth, genreRouter)
-app.use('/auth', authsRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)

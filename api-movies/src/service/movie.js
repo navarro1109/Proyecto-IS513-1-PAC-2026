@@ -1,61 +1,68 @@
-import MOVIES from '../data/movies.json' with { type: 'json' }
-import { v4 as uuidv4 } from 'uuid';
 import { pool } from '../config/db.js'
+
 export default class Movie {
 
     static getAll = async ({ genre, director, year } = {}) => {
 
+        let query = `SELECT
+                        m.id,
+                        m.title,
+                        m.release_year,
+                        m.synopsis,
+                        m.poster_url,
+                        GROUP_CONCAT(DISTINCT g.name SEPARATOR ', ') AS genres,
+                        GROUP_CONCAT(DISTINCT d.full_name SEPARATOR ', ') AS directors
+                    FROM movies m
+                    LEFT JOIN movie_genres mg ON m.id = mg.movie_id
+                    LEFT JOIN genres g ON mg.genre_id = g.id
+                    LEFT JOIN movie_directors md ON m.id = md.movie_id
+                    LEFT JOIN directors d ON md.director_id = d.id`
 
-        const [rows] = await pool.query(`SELECT 
-                                    m.id, 
-                                    m.title, 
-                                    m.release_year,
-                                    m.synopsis,
-                                    GROUP_CONCAT(DISTINCT g.name SEPARATOR ', ') AS genres,
-                                    GROUP_CONCAT(DISTINCT d.full_name SEPARATOR ', ') AS directors
-                                FROM movies m
-                                LEFT JOIN movie_genres mg ON m.id = mg.movie_id
-                                LEFT JOIN genres g ON mg.genre_id = g.id
-                                LEFT JOIN movie_directors md ON m.id = md.movie_id
-                                LEFT JOIN directors d ON md.director_id = d.id
-                                GROUP BY m.id;`);
+        const conditions = []
+        const params = {}
 
-
-        //conectarse a la base de datos
-        //hacer la consutla (query)
-        // retornar los resultados
-
-        //concatenar con un where
         if (genre) {
-            //throw -> genera un error generico
-            // throw Error('user not found')
-
-            return MOVIES.filter((movie) => {
-                return movie.genre.some((g) => {
-                    return g.toLowerCase() === genre.toLowerCase()
-                })
-            })
+            conditions.push('g.name = :genre')
+            params.genre = genre
         }
-        //select *from 
+
+        if (director) {
+            conditions.push('d.full_name LIKE :director')
+            params.director = `%${director}%`
+        }
+
+        if (year) {
+            conditions.push('m.release_year = :year')
+            params.year = year
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ${conditions.join(' AND ')}`
+        }
+
+        query += ' GROUP BY m.id ORDER BY m.id'
+
+        const [rows] = await pool.query(query, params)
         return rows
     }
 
     static find = async (id) => {
-
-        const [rows] = await pool.query(`SELECT 
-                                    m.id, 
-                                    m.title, 
-                                    m.release_year,
-                                    m.synopsis,
-                                    GROUP_CONCAT(DISTINCT g.name SEPARATOR ', ') AS genres,
-                                    GROUP_CONCAT(DISTINCT d.full_name SEPARATOR ', ') AS directors
-                                FROM movies m
-                                LEFT JOIN movie_genres mg ON m.id = mg.movie_id
-                                LEFT JOIN genres g ON mg.genre_id = g.id
-                                LEFT JOIN movie_directors md ON m.id = md.movie_id
-                                LEFT JOIN directors d ON md.director_id = d.id
-                                where m.id = :id
-                                GROUP BY m.id;`, { id }); //bind param
+        const [rows] = await pool.query(`
+            SELECT
+                m.id,
+                m.title,
+                m.release_year,
+                m.synopsis,
+                m.poster_url,
+                GROUP_CONCAT(DISTINCT g.name SEPARATOR ', ') AS genres,
+                GROUP_CONCAT(DISTINCT d.full_name SEPARATOR ', ') AS directors
+            FROM movies m
+            LEFT JOIN movie_genres mg ON m.id = mg.movie_id
+            LEFT JOIN genres g ON mg.genre_id = g.id
+            LEFT JOIN movie_directors md ON m.id = md.movie_id
+            LEFT JOIN directors d ON md.director_id = d.id
+            WHERE m.id = :id
+            GROUP BY m.id`, { id })
 
         return rows
     }
@@ -76,11 +83,13 @@ export default class Movie {
             const movieId = result.insertId
 
             // 2. Insertar relaciones con generos
-            for (const genreId of genre) {
-                await connection.query(
-                    'INSERT INTO movie_genres (movie_id, genre_id) VALUES (:movieId, :genreId)',
-                    { movieId, genreId }
-                )
+            if (genre) {
+                for (const genreId of genre) {
+                    await connection.query(
+                        'INSERT INTO movie_genres (movie_id, genre_id) VALUES (:movieId, :genreId)',
+                        { movieId, genreId }
+                    )
+                }
             }
 
             // 3. Insertar relaciones con directores
@@ -191,4 +200,3 @@ export default class Movie {
     }
 
 }
-

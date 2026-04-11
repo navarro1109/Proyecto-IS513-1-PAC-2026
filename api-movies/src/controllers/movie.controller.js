@@ -1,94 +1,68 @@
 import Movie from '../service/movie.js'
 import { validateMovieSchema, validatePartialMovieSchema } from '../schemas/movie.schema.js'
 
-
 export const getAll = async (req, res) => {
 
-    const { query } = req // server
+    const { query } = req
 
-    //TODO: capturar los errores que puedan venir de la bbdd
     const dataFilter = {}
-
     if (query.genre) dataFilter.genre = query.genre
     if (query.director) dataFilter.director = query.director
     if (query.year) dataFilter.year = query.year
 
-    //consulta a la bbdd (service/model)
     try {
+        const movies = await Movie.getAll(dataFilter)
 
-        const filtered_movies = await Movie.getAll(dataFilter)
+        const newList = movies.map((movie) => ({
+            ...movie,
+            genres: movie.genres ? movie.genres.split(', ') : [],
+            directors: movie.directors ? movie.directors.split(', ') : []
+        }))
 
-
-        if (!filtered_movies) {
-            res.json({
-                message: 'Obtener todas las peliculas',
-                data: []
-            })//server
-        }
-
-
-        const newList = filtered_movies.map((movie) => {
-
-            return {
-                ...movie,
-                genres: movie.genres.split(', '),
-                directors: movie.directors.split(', ')
-            }
-
-        })     // [{}]
-
-        // filtered_movies.forEach((movie) => {
-        //     movie.genres = movie.genres.split(', ')
-        //     movie.directors = movie.directors.split(', ')
-        // })
-
-        res.json({
-            message: 'Obtener todas las peliculas',
+        return res.json({
+            status: 'success',
+            message: 'Listado de peliculas',
             data: newList
-        })//server
+        })
 
     } catch (e) {
         return res.status(500).json({
+            status: 'error',
             message: 'Error al consultar la base de datos: ' + e.message,
             data: null
         })
     }
-
 }
 
 export const getById = async (req, res) => {
 
     const { id } = req.params
 
-    // if (isNaN(id) || id < 0) {
-    //     return res.status(400).json({
-    //         message: 'el parametro debe ser un numero'
-    //     })
-    // }
-
-    //consultar la bbdd
-    // const movie = MOVIES.find((movie) => {
-    //     return movie.id === id
-    // })
-
-    //desde el servicio
     try {
         const [movie] = await Movie.find(id)
 
         if (!movie) {
-            res.status(404).json({
-                message: 'pelicula no encontrada',
+            return res.status(404).json({
+                status: 'error',
+                message: 'Pelicula no encontrada',
                 data: null
             })
         }
 
-        res.json({
-            message: 'Obtener una pelicula por su id',
-            data: movie
+        return res.json({
+            status: 'success',
+            message: 'Pelicula encontrada',
+            data: {
+                ...movie,
+                genres: movie.genres ? movie.genres.split(', ') : [],
+                directors: movie.directors ? movie.directors.split(', ') : []
+            }
         })
-    } catch {
-        res.status(500).json({
-            message: 'Error en el server',
+
+    } catch (e) {
+        return res.status(500).json({
+            status: 'error',
+            message: 'Error en el servidor: ' + e.message,
             data: null
         })
     }
@@ -96,91 +70,101 @@ export const getById = async (req, res) => {
 
 export const create = async (req, res) => {
 
-    //obtener los datos
-    const body = req.body // server
-
-    // validar que los datos sean correctos -> server
-    const { success, data, error, errors } = validateMovieSchema(body)
+    const { success, data, error } = validateMovieSchema(req.body)
 
     if (!success) {
-        res.status(400).json({
+        return res.status(400).json({
             status: 'error',
-            message: 'verifique la información enviada',
-            errors: errors?.error?.issues || JSON.parse(error.message)
+            message: 'Verifique la informacion enviada',
+            errors: JSON.parse(error.message)
         })
     }
 
+    try {
+        const newMovie = await Movie.create(data)
 
-    //TODO: guardar los datos en la base de datos
-    // Service / Model
-    const newMovie = await Movie.create(data)
-
-
-    // responder al cliente -> server
-    res
-        .status(201)
-        .json({
+        return res.status(201).json({
             status: 'success',
             message: 'Pelicula creada correctamente',
             data: newMovie
         })
+
+    } catch (e) {
+        return res.status(500).json({
+            status: 'error',
+            message: 'Error al crear la pelicula: ' + e.message,
+            data: null
+        })
+    }
 }
 
 export const update = async (req, res) => {
 
     const { id } = req.params
 
-    const movie = await Movie.find(id)
-
-    if (!movie) {
-        return res.status(404).json(
-            {
-                status: 'error',
-                message: 'Pelicula no encontrada'
-            }
-        )
-    }
-
-    const { success, errors, error, data } = validatePartialMovieSchema(req.body)
+    const { success, data, error } = validatePartialMovieSchema(req.body)
 
     if (!success) {
         return res.status(400).json({
             status: 'error',
             message: 'Datos incorrectos',
-            errors: errors?.error?.issues || JSON.parse(error.message)
+            errors: JSON.parse(error.message)
         })
     }
 
-    const updatedMovie = await Movie.update(id, data)
+    try {
+        const [movie] = await Movie.find(id)
 
-    res.json({
-        status: 'success',
-        message: 'Pelicula actualizada',
-        data: updatedMovie
-    })
+        if (!movie) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Pelicula no encontrada'
+            })
+        }
 
+        const updatedMovie = await Movie.update(id, data)
+
+        return res.json({
+            status: 'success',
+            message: 'Pelicula actualizada',
+            data: updatedMovie
+        })
+
+    } catch (e) {
+        return res.status(500).json({
+            status: 'error',
+            message: 'Error al actualizar la pelicula: ' + e.message,
+            data: null
+        })
+    }
 }
 
 export const deleteMovie = async (req, res) => {
+
     const { id } = req.params
 
-    const movie = await Movie.find(id)
+    try {
+        const [movie] = await Movie.find(id)
 
-    if (!movie) {
-        return res.status(404).json(
-            {
+        if (!movie) {
+            return res.status(404).json({
                 status: 'error',
                 message: 'Pelicula no encontrada'
-            }
-        )
+            })
+        }
+
+        await Movie.delete(id)
+
+        return res.json({
+            status: 'success',
+            message: 'Pelicula eliminada'
+        })
+
+    } catch (e) {
+        return res.status(500).json({
+            status: 'error',
+            message: 'Error al eliminar la pelicula: ' + e.message,
+            data: null
+        })
     }
-
-    await Movie.delete(id)
-
-
-    res.json({
-        status: "success",
-        message: "Pelicula eliminada"
-    })
-
 }

@@ -1,11 +1,8 @@
-
 import jwt from 'jsonwebtoken'
 
-
 export const isAuth = (req, res, next) => {
-    //verificar si quien accede al recurso está autenticado
 
-    const { authorization } = req.headers // Bearer ey1243.3242341.12rfrd423
+    const { authorization } = req.headers
 
     if (!authorization) {
         return res.status(401).json({ status: 'error', message: 'acceso denegado' })
@@ -15,16 +12,10 @@ export const isAuth = (req, res, next) => {
 
     try {
         const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-
-        //TODO: modificar la req
-
-        next()// permite el paso a la siguente parte del ciclo de vida de la peticion
-    }
-    catch {
-        return res.json({
-            status: 'error',
-            "message": "acceso denegado"
-        })
+        req.user = tokenDecoded // adjuntar usuario decodificado a la request
+        next()
+    } catch {
+        return res.status(401).json({ status: 'error', message: 'acceso denegado' })
     }
 
 }
