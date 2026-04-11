@@ -22,6 +22,27 @@ export const getById = async (req, res) => {
     }
 }
 
+export const update = async (req, res) => {
+    const { id } = req.params
+    const { full_name } = req.body
+
+    if (!full_name || full_name.trim() === '') {
+        return res.status(400).json({ status: 'error', message: 'El nombre del director es requerido' })
+    }
+
+    try {
+        const director = await Director.findById(id)
+        if (!director) {
+            return res.status(404).json({ status: 'error', message: 'Director no encontrado' })
+        }
+
+        const updated = await Director.update(id, { full_name: full_name.trim() })
+        res.json({ status: 'success', message: 'Director actualizado', data: updated })
+    } catch (e) {
+        res.status(500).json({ status: 'error', message: e.message })
+    }
+}
+
 export const create = async (req, res) => {
     const { full_name } = req.body
 
