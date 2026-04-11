@@ -12,6 +12,10 @@ export default class Director {
         return rows[0]
     }
 
+    static delete = async (id) => {
+        await pool.query('DELETE FROM directors WHERE id = :id', { id })
+    }
+
     static update = async (id, { full_name }) => {
         await pool.query('UPDATE directors SET full_name = :full_name WHERE id = :id', { full_name, id })
         const [rows] = await pool.query('SELECT * FROM directors WHERE id = :id', { id })

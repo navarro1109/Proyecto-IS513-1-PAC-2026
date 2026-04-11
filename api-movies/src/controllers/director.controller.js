@@ -22,6 +22,21 @@ export const getById = async (req, res) => {
     }
 }
 
+export const deleteDirector = async (req, res) => {
+    const { id } = req.params
+    try {
+        const director = await Director.findById(id)
+        if (!director) {
+            return res.status(404).json({ status: 'error', message: 'Director no encontrado' })
+        }
+
+        await Director.delete(id)
+        res.json({ status: 'success', message: 'Director eliminado' })
+    } catch (e) {
+        res.status(500).json({ status: 'error', message: e.message })
+    }
+}
+
 export const update = async (req, res) => {
     const { id } = req.params
     const { full_name } = req.body
